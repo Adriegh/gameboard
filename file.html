@@ -1,0 +1,779 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="author" content="Adriegh">
+	<title>ZBOMB</title>
+
+	<script src="data/data.js"></script>
+	<script>
+		window.onload = () => {
+			const checkpointType = { checkpoint: 0, checkpointSpecial: 1, checkpointStart: 2, checkpointEnd: 3 };
+			Object.freeze(checkpointType);
+			const checkpointsList = [
+				{n: 1,  type: checkpointType.checkpointStart,   x: 445, y: 506},
+				{n: 2,  type: checkpointType.checkpoint,        x: 351, y: 476},
+				{n: 3,  type: checkpointType.checkpoint,        x: 277, y: 519},
+				{n: 4,  type: checkpointType.checkpoint,        x: 190, y: 537},
+				{n: 5,  type: checkpointType.checkpoint,        x: 111, y: 509},
+				{n: 6,  type: checkpointType.checkpointSpecial, x: 123, y: 444},
+				{n: 7,  type: checkpointType.checkpoint,        x: 143, y: 389},
+				{n: 8,  type: checkpointType.checkpoint,        x: 215, y: 352},
+				{n: 9,  type: checkpointType.checkpoint,        x: 177, y: 281},
+				{n: 10, type: checkpointType.checkpoint,        x: 139, y: 228},
+				{n: 11, type: checkpointType.checkpointSpecial, x: 201, y: 197},
+				{n: 12, type: checkpointType.checkpoint,        x: 254, y: 244},
+				{n: 13, type: checkpointType.checkpoint,        x: 297, y: 206},
+				{n: 14, type: checkpointType.checkpoint,        x: 332, y: 157},
+				{n: 15, type: checkpointType.checkpoint,        x: 373, y: 111},
+				{n: 16, type: checkpointType.checkpointSpecial, x: 420, y: 40 },
+				{n: 17, type: checkpointType.checkpoint,        x: 505, y: 79 },
+				{n: 18, type: checkpointType.checkpoint,        x: 461, y: 152},
+				{n: 19, type: checkpointType.checkpoint,        x: 486, y: 225},
+				{n: 20, type: checkpointType.checkpointSpecial, x: 456, y: 300},
+				{n: 21, type: checkpointType.checkpoint,        x: 386, y: 348},
+				{n: 22, type: checkpointType.checkpoint,        x: 376, y: 411},
+				{n: 23, type: checkpointType.checkpoint,        x: 454, y: 428},
+				{n: 24, type: checkpointType.checkpoint,        x: 526, y: 468},
+				{n: 25, type: checkpointType.checkpointSpecial, x: 622, y: 499},
+				{n: 26, type: checkpointType.checkpoint,        x: 716, y: 523},
+				{n: 27, type: checkpointType.checkpoint,        x: 810, y: 471},
+				{n: 28, type: checkpointType.checkpoint,        x: 885, y: 423},
+				{n: 29, type: checkpointType.checkpoint,        x: 948, y: 384},
+				{n: 30, type: checkpointType.checkpointSpecial, x: 960, y: 314},
+				{n: 31, type: checkpointType.checkpoint,        x: 903, y: 288},
+				{n: 32, type: checkpointType.checkpoint,        x: 842, y: 326},
+				{n: 33, type: checkpointType.checkpoint,        x: 784, y: 362},
+				{n: 34, type: checkpointType.checkpoint,        x: 721, y: 352},
+				{n: 35, type: checkpointType.checkpoint,        x: 726, y: 298},
+				{n: 36, type: checkpointType.checkpointSpecial, x: 796, y: 257},
+				{n: 37, type: checkpointType.checkpoint,        x: 807, y: 189},
+				{n: 38, type: checkpointType.checkpoint,        x: 752, y: 179},
+				{n: 39, type: checkpointType.checkpoint,        x: 679, y: 216},
+				{n: 40, type: checkpointType.checkpoint,        x: 625, y: 257},
+				{n: 41, type: checkpointType.checkpoint,        x: 581, y: 305},
+				{n: 42, type: checkpointType.checkpointSpecial, x: 522, y: 287},
+				{n: 43, type: checkpointType.checkpoint,        x: 507, y: 231},
+				{n: 44, type: checkpointType.checkpoint,        x: 545, y: 176},
+				{n: 45, type: checkpointType.checkpoint,        x: 591, y: 142},
+				{n: 46, type: checkpointType.checkpoint,        x: 615, y: 84 },
+				{n: 47, type: checkpointType.checkpoint,        x: 647, y: 32 },
+				{n: 48, type: checkpointType.checkpointSpecial, x: 698, y: 58 },
+				{n: 49, type: checkpointType.checkpoint,        x: 673, y: 139},
+				{n: 50, type: checkpointType.checkpoint,        x: 752, y: 84 },
+				{n: 51, type: checkpointType.checkpoint,        x: 820, y: 138},
+				{n: 52, type: checkpointType.checkpoint,        x: 866, y: 107},
+				{n: 53, type: checkpointType.checkpointEnd,     x: 885, y: 172}
+			];
+			const friendsList = [
+				{id: "1",   name: "Владимир", lastName: "Ларионов", img: "./male.png",   points: "463"},
+				{id: "10",  name: "Владимир", lastName: "Сергеев",  img: "./male.png",   points: "521"},
+				{id: "110", name: "Вениамин", lastName: "Васильев", img: "./male.png",   points: "865"},
+				{id: "300", name: "Мария",    lastName: "Логинова", img: "./female.png", points: "865"},
+				{id: "450", name: "Борис",    lastName: "Казанцев", img: "./male.png",   points: "784"},
+				{id: "455", name: "Полина",   lastName: "Калинина", img: "./female.png", points: "225"},
+				{id: "700", name: "Даниил",   lastName: "Воробьёв", img: "./male.png",   points: "100"},
+				{id: "705", name: "Борис",    lastName: "Воробьёв", img: "./male.png",   points: "999"},
+				{id: "900", name: "Мария",    lastName: "Воробьёв", img: "./female.png", points: "666"}
+			];
+			const ratingList = data.rating.sort( (a, b) => parseInt(a.points) < parseInt(b.points) ).map( ratingResult => {
+				ratingResult.isFriend = data.friends.find( friend => friend.id == ratingResult.id ) ? true : false;
+				return ratingResult;
+			});
+			const friendsListMaxInRow = 8;
+			const ratingResultListMaxInRow = 7;
+			
+			const checkpointsContainer = document.querySelector('.checkpoint_container');
+			const friendsContainer = document.querySelector('.friends_container');
+			const ratingTableContainer = document.querySelector('.rating_table_container');
+			
+			const gameMainWindow = document.querySelector('.game_main_window');
+			const gameRatingWindow = document.querySelector('.game_rating_window');
+			const arrowLeft = document.querySelector('.arrow_left');
+			const arrowRight = document.querySelector('.arrow_right');
+			const goButton = document.querySelector('.go_button');
+			const rating = document.querySelector('.rating');
+			const ratingButton = document.querySelector('.rating_button');
+			const closeRatingButton = document.querySelector('.close_button');
+			
+			const path = document.querySelector('.path');
+			const pathLength = path.getTotalLength();			
+			const player = document.querySelector('.player');
+			
+			let ratingStateIsLocked = false;
+			let arrowStateIsLocked = false;
+			let playerPosition;
+			let wherePlayerShouldBePosition;
+			
+			
+			
+			function buildMap() {
+				setCheckpoints();
+				setPlayerPositionByCheckpoint(1);
+			}
+			
+			function setCheckpoints() {
+				checkpointsList.forEach( checkpoint => {
+					let checkpointDiv = document.createElement('div');
+					let checkpointImage = document.createElement('img');
+					let checkpointImagePath = 'img/checkpoint.png';
+					let checkpointClassName = 'checkpoint';
+					
+					if(checkpoint.type === checkpointType.checkpoint) {
+						checkpointImagePath = 'img/checkpoint.png';
+						checkpointClassName = 'checkpoint';
+					}
+					else if(checkpoint.type === checkpointType.checkpointSpecial) {
+						checkpointImagePath = 'img/checkpoint_special.png';
+						checkpointClassName = 'checkpoint_special';
+					}
+					else if(checkpoint.type === checkpointType.checkpointStart) {
+						checkpointImagePath = 'img/checkpoint_start.png';
+						checkpointClassName = 'checkpoint_start';
+					}
+					else if(checkpoint.type === checkpointType.checkpointEnd) {
+						checkpointImagePath = 'img/checkpoint_end.png';
+						checkpointClassName = 'checkpoint_end';
+					}
+					
+					checkpointImage.setAttribute('src', checkpointImagePath);
+					checkpointDiv.classList.add(checkpointClassName);					
+					checkpointDiv.append(checkpointImage);
+					checkpointDiv.style.left = `${checkpoint.x}px`;
+					checkpointDiv.style.top = `${checkpoint.y}px`;
+					
+					checkpointsContainer.append(checkpointDiv);
+				});
+			}
+			
+			function setPlayerPositionByCheckpoint(n = 1) {
+				playerPosition = checkpointsList.find( checkpoint => checkpoint.n == n );
+				player.style.left = `${playerPosition.x}px`;
+				player.style.top = `${playerPosition.y}px`;
+			}
+			
+			function movePlayerToCheckpoint(n = 1) {
+				const step     = 1;
+				const epsilon  = 2.5;
+				const delta    = 1000;
+				const interval = 100;
+				
+				if(!wherePlayerShouldBePosition) wherePlayerShouldBePosition = checkpointsList.find( checkpoint => checkpoint.n == n );
+			
+				movePlayerPrecisely(step, epsilon, delta, interval);
+			}
+
+			function movePlayerPrecisely(step, epsilon, delta, interval) {
+				const pathPercent = step / delta;
+				const pathCurrent = pathLength * pathPercent;
+				const pathPoint = path.getPointAtLength(pathCurrent);
+				const pathEpsilon = Math.sqrt((pathPoint.x - wherePlayerShouldBePosition.x) ** 2 + (pathPoint.y - wherePlayerShouldBePosition.y) ** 2);
+				
+				const pathPercentNext = (step + 1) / delta;
+				const pathCurrentNext = pathLength * pathPercentNext;
+				const pathPointNext = path.getPointAtLength(pathCurrentNext);
+				const pathEpsilonNext = Math.sqrt((pathPointNext.x - wherePlayerShouldBePosition.x) ** 2 + (pathPointNext.y - wherePlayerShouldBePosition.y) ** 2);
+				
+				if(pathEpsilon < epsilon && pathEpsilon <= pathEpsilonNext) {
+					player.style.transform = `translate(
+						${ wherePlayerShouldBePosition.x - playerPosition.x }px,
+						${ wherePlayerShouldBePosition.y - playerPosition.y }px
+					)`;
+					return;
+				}
+				
+				player.style.transform = `translate(
+					${ pathPoint.x - playerPosition.x }px,
+					${ pathPoint.y - playerPosition.y }px
+				)`;
+				
+				setTimeout(() => movePlayerPrecisely(step + 1, epsilon, delta, interval), interval);
+			}
+			
+			//movePlayer(1, 20, 1000, 100);
+			function movePlayerRaw(from = 1, to = 100, delta = 1000, interval = 100) {
+				if(from < 0 || to > 100 || delta < 1 || interval < 1) return;
+				if(from < to) setTimeout(() => {
+					const pathPercent = from / delta;
+					const pathCurrent = pathLength * pathPercent;
+					const pathPoint = path.getPointAtLength(pathCurrent);
+
+					player.style.transform = `translate(
+						${ pathPoint.x - playerPosition.x }px,
+						${ pathPoint.y - playerPosition.y }px
+					)`;
+				
+					movePlayer(from + 1, to, delta, interval);
+				}, interval);
+			}
+			
+			function loadFriends() {
+				for(let [n, friend] of friendsList.entries()) {
+					if( n == friendsListMaxInRow ) return;
+					let friendDiv = document.createElement('div');
+					let friendImage = document.createElement('img');
+					let friendImagePath = 'img/friend_icon.png';
+					let friendClassName = 'friend';
+					
+					friendImage.setAttribute('src', friendImagePath);
+					friendDiv.classList.add(friendClassName);					
+					friendDiv.append(friendImage);
+					friendDiv.style.left = `${9 * (n + 1) + 50 * n}px`;
+					friendDiv.setAttribute('n', n);
+					
+					friendsContainer.append(friendDiv);
+				}
+			}
+			
+			function switchFriends(direction) {
+				if(arrowStateIsLocked) return;
+				if(direction == 'right') {
+					let n = friendsContainer.firstChild.getAttribute('n');
+					let newInListFriendNumber = n == 0 ? friendsList.length - 1 : n - 1;
+					
+					let friendDiv = document.createElement('div');
+					let friendImage = document.createElement('img');
+					let friendImagePath = 'img/friend_icon.png';
+					let friendClassName = 'friend';
+					
+					friendImage.setAttribute('src', friendImagePath);
+					friendDiv.classList.add(friendClassName);					
+					friendDiv.append(friendImage);
+					friendDiv.style.left = `${-50}px`;
+					friendDiv.setAttribute('n', newInListFriendNumber);
+					
+					friendsContainer.prepend(friendDiv);
+					
+					arrowStateIsLocked = true;
+					setTimeout( () => {
+						arrowStateIsLocked = false;
+						friendsContainer.lastChild.remove();
+					}, 550 );
+					setTimeout( () => friendsContainer.querySelectorAll('div.friend').forEach( friend => {
+						let x = friend.style.transform.replace(/[^-0-9]/g, '');
+						x = !x ? 0 : parseInt(x);
+						friend.style.transform = `translateX(${x + 9 + 50}px)`;
+					}), 50);
+					
+					return;
+				}
+				if(direction == 'left') {
+					let n = friendsContainer.lastChild.getAttribute('n');
+					let newInListFriendNumber = (n + 1) % friendsList.length;
+					
+					let friendDiv = document.createElement('div');
+					let friendImage = document.createElement('img');
+					let friendImagePath = 'img/friend_icon.png';
+					let friendClassName = 'friend';
+					
+					friendImage.setAttribute('src', friendImagePath);
+					friendDiv.classList.add(friendClassName);					
+					friendDiv.append(friendImage);
+					friendDiv.style.left = `${9 * (friendsListMaxInRow + 1) + 50 * friendsListMaxInRow}px`;
+					friendDiv.setAttribute('n', newInListFriendNumber);
+					
+					friendsContainer.append(friendDiv);
+					
+					arrowStateIsLocked = true;
+					setTimeout( () => {
+						arrowStateIsLocked = false;
+						friendsContainer.firstChild.remove();
+					}, 550 );
+					setTimeout( () => friendsContainer.querySelectorAll('div.friend').forEach( friend => {
+						let x = friend.style.transform.replace(/[^-0-9]/g, '');
+						x = !x ? 0 : parseInt(x);
+						friend.style.transform = `translateX(${x - 9 - 50}px)`;
+					}), 50);
+				}
+			}
+			
+			function loadRating() {
+				for(let [n, ratingResult] of ratingList.entries()) {
+					if( n == ratingResultListMaxInRow ) return;
+					let ratingResultDiv = document.createElement('div');
+					let ratingResultImage = document.createElement('img');
+					let ratingResultP1 = document.createElement('p');
+					let ratingResultP2 = document.createElement('p');
+					let ratingResultP3 = document.createElement('p');
+					let ratingResultImagePath = 'img/rating_list_result.png';
+					let ratingResultClassName = 'rating_result';
+					let ratingResultP1ClassName = 'p1';
+					let ratingResultP2ClassName = 'p2';
+					let ratingResultP3ClassName = 'p3';
+					
+					ratingResultImage.setAttribute('src', ratingResultImagePath);
+					ratingResultP1.innerText = `${n + 1}`;
+					ratingResultP2.innerText = `${ratingResult.name} ${ratingResult.lastName}`;
+					ratingResultP3.innerText = `${ratingResult.points}`;
+					ratingResultP1.classList.add(ratingResultP1ClassName);
+					ratingResultP2.classList.add(ratingResultP2ClassName);
+					ratingResultP3.classList.add(ratingResultP3ClassName);
+					ratingResultDiv.classList.add(ratingResultClassName);
+					if(ratingResult.isFriend) ratingResultDiv.classList.add('rating_friend');
+					ratingResultDiv.append(ratingResultImage);
+					ratingResultDiv.append(ratingResultP1);
+					ratingResultDiv.append(ratingResultP2);
+					ratingResultDiv.append(ratingResultP3);
+					ratingResultDiv.style.top = `${4 * (n + 1) + 29 * n}px`;
+					ratingResultDiv.setAttribute('n', n);
+					
+					ratingTableContainer.append(ratingResultDiv);
+				}
+			}
+			
+			function showRating() {
+				if(ratingStateIsLocked) return;
+				
+				gameRatingWindow.classList.add('game_rating_window_active');
+				gameMainWindow.style.filter = `blur(${4}px)`;
+				rating.style.transform = `translateY(${632.5}px)`;
+				
+				ratingStateIsLocked = true;
+				setTimeout( () => ratingStateIsLocked = false, 1050 );
+			}
+			
+			function closeRating() {
+				if(ratingStateIsLocked) return;
+				
+				gameRatingWindow.classList.remove('game_rating_window_active');
+				gameMainWindow.style.filter = null;
+				rating.style.transform = null;
+				
+				ratingStateIsLocked = true;
+				setTimeout( () => ratingStateIsLocked = false, 300 );
+			}			
+			
+			
+			
+			buildMap();			
+			loadFriends();
+			loadRating();
+			
+			arrowLeft.addEventListener('click', () => switchFriends('left'));
+			arrowRight.addEventListener('click', () => switchFriends('right'));
+			goButton.addEventListener('click', () => movePlayerToCheckpoint(11), {once : true});
+			ratingButton.addEventListener('click', () => showRating());
+			closeRatingButton.addEventListener('click', () => closeRating());
+		}
+	</script>
+	<style>
+		.mockup_1 {
+			display: none;
+			position: absolute;
+			opacity: 0.25;
+			z-index: 100;
+		}
+		.mockup_2 {
+			display: none;
+			position: absolute;
+			opacity: 0.75;
+			z-index: 100;
+		}
+		body {
+			width: 100vw;
+			height: 100vh;
+			background: repeating-linear-gradient(
+			  -45deg,
+			  #00a090,
+			  #00a090 10px,
+			  #0060a0 10px,
+			  #0060a0 20px
+			);
+			margin: 0;
+			overflow: hidden;
+			user-select: none;
+		}
+		.game_window {
+			--game_width: 980px;
+			--game_height: 630px;
+			position: relative;
+			width: var(--game_width);
+			height: var(--game_height);
+			margin: calc(50vh - var(--game_height) * 0.5) auto 0 auto;
+			overflow: hidden;
+		}
+		.game_main_window {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			transition: filter 250ms ease-out;
+			z-index: 0;
+		}
+		.game_rating_window {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			opacity: 0;
+			z-index: -50;
+		}
+		.game_rating_window_active {
+			opacity: 1;
+			z-index: 50;
+		}
+		object_svg, .path_svg {
+			display: none;
+			position: absolute;
+		}
+		.path {
+			fill: none;
+			stroke: #ffffff;
+			stroke-width: 2px;
+		}
+		.gradient {
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 0;
+		}
+		.checkpoint {
+			--checkpoint_width: 21px;
+			--checkpoint_height: 15px;
+			position: absolute;
+			width: var(--checkpoint_width);
+			height: var(--checkpoint_height);
+			margin-left: calc(var(--checkpoint_width) * -0.5);
+			margin-top: calc(var(--checkpoint_height) * -0.5);
+			z-index: 5;
+		}
+		.checkpoint_special {
+			--checkpoint_special_width: 25px;
+			--checkpoint_special_height: 17px;
+			position: absolute;
+			width: var(--checkpoint_special_width);
+			height: var(--checkpoint_special_height);
+			margin-left: calc(var(--checkpoint_special_width) * -0.5);
+			margin-top: calc(var(--checkpoint_special_height) * -0.5);
+			z-index: 5;
+		}
+		.checkpoint_start {
+			--checkpoint_start_width: 35px;
+			--checkpoint_start_height: 25px;
+			position: absolute;
+			width: var(--checkpoint_start_width);
+			height: var(--checkpoint_start_height);
+			margin-left: calc(var(--checkpoint_start_width) * -0.5);
+			margin-top: calc(var(--checkpoint_start_height) * -0.5);
+			z-index: 5;
+		}
+		.checkpoint_end {
+			--checkpoint_end_width: 37px;
+			--checkpoint_end_height: 27px;
+			position: absolute;
+			width: var(--checkpoint_end_width);
+			height: var(--checkpoint_end_height);
+			margin-left: calc(var(--checkpoint_end_width) * -0.5);
+			margin-top: calc(var(--checkpoint_end_height) * -0.5);
+			z-index: 5;
+		}
+		.object_furniture {
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 0;
+		}
+		.object_start_text {
+			position: absolute;
+			left: 425px;
+			top: 503px;
+			z-index: 2;
+		}
+		.object_end_text {
+			position: absolute;
+			left: 862px;
+			top: 148px;
+			z-index: 2;
+		}
+		.object_path {
+			position: absolute;
+			left: 78px;
+			top: 21px;
+			z-index: 4;
+		}
+		.player {
+			--player_width: 21px;
+			--player_height: 69px;
+			position: absolute;
+			width: var(--player_width);
+			height: var(--player_height);
+			margin-left: calc(var(--player_width) * -0.5);
+			margin-top: calc(var(--player_height) * -1);
+			border-radius: 50%;
+			transition: transform 250ms linear;
+			z-index: 10;
+		}
+		.menu {
+			--menu_width: 980px;
+			--menu_height: 106px;
+			position: absolute;
+			width: var(--menu_width);
+			height: var(--menu_height);
+			left: 0;
+			bottom: 0;
+			z-index: 15;
+		}
+		.friends_list {
+			position: absolute;
+			left: 4px;
+			bottom: 14px;
+			z-index: 16;
+		}
+		.friends_container {
+			--friends_container_width: 477px;
+			--friends_container_height: 63px;
+			position: absolute;
+			width: var(--friends_container_width);
+			height: var(--friends_container_height);
+			left: 28px;
+			bottom: 4px;
+			z-index: 18;
+			overflow: hidden;
+		}
+		.friend {
+			--friend_height: 51px;
+			position: absolute;
+			height: var(--friend_height);
+			bottom: 6px;
+			transition: transform 500ms linear;
+			cursor: cell;
+			z-index: 20;
+		}
+		.arrow_left {
+			position: absolute;
+			left: 9px;
+			bottom: 16px;
+			cursor: pointer;
+			transition: transform 50ms linear;
+			z-index: 18;
+		}
+		.arrow_left:active {
+			transform: scale(0.95);
+		}
+		.arrow_right {
+			position: absolute;
+			left: 511px;
+			bottom: 16px;
+			cursor: pointer;
+			transition: transform 50ms linear;
+			z-index: 18;
+		}
+		.arrow_right:active {
+			transform: scale(0.95);
+		}
+		.chat_button {
+			position: absolute;
+			right: 370px;
+			bottom: 12px;
+			cursor: not-allowed;
+			z-index: 20;
+		}
+		.go_button {
+			position: absolute;
+			right: 159px;
+			bottom: 11px;
+			cursor: pointer;
+			transition: transform 100ms linear;
+			z-index: 20;
+		}
+		.go_button:active {
+			transform: scale(0.98);
+		}
+		.mail_button {
+			position: absolute;
+			right: 86px;
+			bottom: 12px;
+			cursor: not-allowed;
+			z-index: 20;
+		}
+		.rating_button {
+			position: absolute;
+			right: 14px;
+			bottom: 11px;
+			cursor: pointer;
+			transition: transform 100ms linear;
+			z-index: 20;
+		}
+		.rating_button:active {
+			transform: scale(0.98);
+		}
+		.rating {
+			position: absolute;
+			left: 240px;
+			top: -550px;
+			transition: transform 1000ms cubic-bezier(0, 0, .3, 1.2);
+			z-index: 55;
+		}
+		.rating_top {
+			position: absolute;
+			left: 126px;
+			top: -12px;
+			z-index: 58;
+		}
+		.rating_table {
+			position: absolute;
+			left: 29px;
+			top: 93px;
+			z-index: 60;
+		}
+		.rating_table_top {
+			position: absolute;
+			left: 31px;
+			top: 33px;
+			z-index: 62;
+		}
+		.close_button {
+			position: absolute;
+			left: 480px;
+			top: 13px;
+			cursor: pointer;
+			transition: transform 100ms linear;
+			z-index: 58;
+		}
+		.close_button:active {
+			transform: scale(0.95);
+		}
+		.rating_table_container {
+			--rating_table_container_width: 409px;
+			--rating_table_container_height: 234px;
+			position: absolute;
+			width: var(--rating_table_container_width);
+			height: var(--rating_table_container_height);
+			left: 28px;
+			top: 66px;
+			z-index: 64;
+			overflow: hidden;
+		}
+		.rating_result {
+			--rating_result_height: 29px;
+			position: absolute;
+			height: var(--rating_result_height);
+			left: 3px;
+			z-index: 65;
+		}
+		.rating_result.rating_friend .p1,
+		.rating_result.rating_friend .p2,
+		.rating_result.rating_friend .p3 {
+			color: #ffd020;
+		}
+		.rating_result .p1 {
+			--p1_width: 56px;
+			position: absolute;
+			width: var(--p1_width);
+			top: 0;
+			left: 6px;
+			margin: 6px 0 8px 0;
+			font: bold 13px fantasy;
+			text-align: center;
+			color: white;
+			z-index: 68;
+		}
+		.rating_result .p2 {
+			--p2_width: 190px;
+			position: absolute;
+			width: var(--p2_width);
+			top: 0;
+			left: 95px;
+			margin: 6px 0 8px 6px;
+			font: 13px fantasy;
+			text-align: left;
+			color: white;
+			z-index: 68;
+		}
+		.rating_result .p3 {
+			--p3_width: 80px;
+			position: absolute;
+			width: var(--p3_width);
+			top: 0;
+			left: 304px;
+			margin: 6px 0 8px 0;
+			font: bold 13px fantasy;
+			text-align: center;
+			color: white;
+			z-index: 68;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="game_window">
+		<img class="mockup_1" src="img/mockup_1.png">
+		<img class="mockup_2" src="img/mockup_2.png">
+		<div class="game_main_window">
+			<div class="gradient">
+				<img class="gradient_img" src="img/gradient.png">
+			</div>
+			<div class="objects">
+				<div class="object_furniture">
+					<img class="object_furniture_img" src="img/furniture.png">
+				</div>
+				<div class="object_start_text">
+					<img class="object_start_text_img" src="img/start_text.png">
+				</div>
+				<div class="object_end_text">
+					<img class="object_end_text_img" src="img/end_text.png">
+				</div>
+				<div class="object_path">
+					<img class="object_path_img" src="img/path.png">
+				</div>
+			</div>
+			<!--object class="object_svg" type="image/svg+xml" data="data/path.svg" width="980px" height="630px"></object-->
+			<svg class="path_svg" width="980px" height="630px" viewBox="0 0 980 630">
+				<path class="path" d="m 436.52515,500.49013 c -1.52066,-0.29196 -4.91291,-1.64786 -9.96942,-4.27673 -8.92441,-4.6398 -9.13064,-4.74742 -13.25561,-10.44424 -7.98513,-11.02792 -13.93648,-17.8629 -21.36571,-20.96371 -7.42923,-3.1008 -15.2754,-1.54567 -24.89009,2.30447 -9.1073,3.64695 -16.32072,7.70047 -37.0322,20.74014 -8.13545,5.12196 -21.03354,12.49088 -28.2348,16.14167 -15.79929,8.00967 -20.08887,10.3403 -34.2808,18.61119 -5.63574,3.28444 -13.03531,7.01175 -15.11706,7.79296 -11.45887,4.30014 -45.038,7.95502 -66.19668,6.64177 -16.96776,-1.05312 -35.64728,-5.93688 -46.33517,-11.82106 -3.38004,-1.86086 -11.03195,-5.95097 -17.12055,-9.15307 -23.89715,-12.56795 -34.293127,-20.05714 -37.635975,-25.10881 -1.689554,-2.55323 -2.110854,-3.93726 -2.469366,-8.94833 -0.35985,-5.02957 -0.125191,-6.74146 1.990959,-9.18858 2.116138,-2.44715 7.113401,-5.685 16.343382,-10.55081 11.42712,-6.02409 17.70899,-8.99699 21.05442,-14.17776 1.67271,-2.59038 1.79804,-6.27813 0.60794,-8.90863 -1.19009,-2.63049 -3.06138,-4.68652 -5.38373,-7.13484 -1.3019,-1.37252 -2.61197,-2.89812 -3.60587,-4.17019 -0.9939,-1.27206 -1.75978,-2.72334 -1.53552,-2.15402 -0.79018,-2.00592 -0.60068,-6.59084 1.24931,-11.48052 1.84999,-4.88968 5.12752,-10.04737 9.01257,-13.71812 3.35939,-3.17409 6.64181,-5.63664 16.30788,-11.00208 9.66606,-5.36545 25.49103,-13.45225 53.19175,-27.42789 7.47115,-3.76937 14.8577,-7.589 20.75983,-10.71794 5.90215,-3.12894 10.06039,-5.38082 12.06065,-6.70237 7.04615,-4.65529 11.73151,-10.14245 12.78976,-16.66398 0.30722,-1.89335 0.39524,-4.63025 -0.90042,-6.84025 -1.29567,-2.21002 -2.99812,-3.664 -5.93319,-6.41407 -4.43363,-4.15415 -11.63056,-8.94185 -20.30231,-13.74736 -7.23903,-4.01157 -21.36894,-12.15884 -31.25363,-18.0241 -9.93313,-5.894 -24.80269,-14.68738 -33.05864,-19.54927 -10.31148,-6.07236 -16.76496,-10.49524 -20.29606,-13.95004 -3.5311,-3.45477 -4.2159,-5.37229 -4.2159,-8.4072 0,-3.20021 0.53341,-4.59221 2.97076,-6.67729 2.43737,-2.08507 7.23783,-4.45311 14.98546,-7.10977 6.35304,-2.17847 11.33725,-4.24555 14.99171,-6.29078 1.82723,-1.02262 3.32742,-2.02151 4.58777,-3.23419 1.26034,-1.21268 2.5759,-2.81779 2.5759,-5.30465 0,-2.29354 -0.78319,-3.28134 -1.54387,-4.46476 -0.76067,-1.18341 -1.69887,-2.2987 -2.83079,-3.30731 -2.8021,-2.49682 -4.65045,-6.90566 -4.65045,-13.12477 0,-4.52032 1.05472,-7.01743 3.43874,-9.12383 2.38403,-2.10639 6.69624,-3.86151 13.46246,-4.82203 6.0778,-0.86279 10.18118,-0.5115 13.76329,1.06344 3.58212,1.57493 6.98999,4.58184 11.05367,9.95745 2.37859,3.14649 5.09009,6.58686 6.48054,8.15858 0.87286,0.98667 5.5378,6.58698 9.92135,11.94433 12.55149,15.33976 23.01379,26.14627 30.92772,30.16901 10.95457,5.56834 24.54362,3.72432 40.05728,-4.0887 6.30656,-3.17609 8.81685,-5.65975 11.74101,-11.51184 1.88652,-3.77549 3.15052,-6.90733 3.35725,-10.55916 0.20674,-3.65182 -0.54564,-7.3053 -1.8677,-12.79049 -2.53784,-10.52953 -4.64143,-15.39137 -10.12817,-23.40605 -3.75488,-5.48488 -5.5084,-9.80861 -5.77022,-12.77796 -0.26183,-2.96933 0.44868,-4.73788 2.89763,-6.98232 2.57165,-2.35687 4.25018,-3.26879 7.3559,-3.66667 3.10571,-0.39787 7.83441,0.009 15.19434,1.36221 3.59039,0.65988 10.31674,1.01689 16.32043,1.0509 7.00745,0.0397 11.10427,0.40698 15.00842,-2.04957 1.95208,-1.22827 3.28723,-3.43887 3.78553,-5.44254 0.49831,-2.00368 0.52229,-3.93854 0.52229,-6.23228 0,-3.54375 0.40888,-5.09415 1.32451,-6.38272 0.91563,-1.28855 2.91221,-2.80594 6.99656,-4.83664 4.41512,-2.19517 9.22131,-6.15817 13.69016,-10.56541 4.46887,-4.40727 8.4158,-9.03942 10.53557,-13.36505 1.14781,-2.3422 2.01453,-4.44608 2.33148,-6.99695 0.31697,-2.550881 0.17743,-5.239531 -0.096,-9.677481 -0.33908,-5.50153 -1.08811,-12.147367 -1.86562,-15.750975 -3.43994,-15.943647 4.14807,-32.985883 16.67556,-39.138234 4.9057,-2.409231 4.91826,-2.350429 14.31901,-2.350429 6.06877,0 9.36596,0.355505 11.85173,1.36429 2.48576,1.008784 4.76991,2.872894 8.63026,6.886222 3.03037,3.150472 9.74777,9.331641 15.38029,14.204925 6.43735,5.569605 10.71322,8.982456 15.6498,10.722114 4.93658,1.739657 9.82519,1.360675 16.29116,0.286227 4.30084,-0.714668 12.75286,-1.372646 17.93532,-1.372646 4.51229,0 6.95687,0.09804 8.38582,0.363533 1.42897,0.265469 2.12257,0.602793 4.10727,1.769609 2.33081,1.370287 4.10117,3.327409 4.6567,4.498196 1.33351,2.810323 1.2545,3.434209 -0.12744,5.127063 -1.38192,1.692832 -5.23632,4.152785 -11.81829,6.581185 -2.72618,1.00582 -5.5263,2.20916 -7.93667,3.38252 -2.41035,1.17336 -4.2601,2.11421 -5.85797,3.44729 l -4.71311,3.932 0,16.904251 c 0,8.49862 -0.051,12.20974 -0.94429,14.96959 -0.89333,2.75987 -2.97941,5.68148 -7.90115,12.38726 -2.88947,3.93685 -4.55246,6.09617 -5.6198,8.76448 -1.06736,2.6683 -1.078,5.1367 -1.078,8.43854 0,4.56297 0.45999,8.44014 2.86004,11.65393 2.40005,3.2138 5.91784,4.91561 10.64002,6.76923 16.1397,6.33538 22.72573,15.49864 22.72573,31.13633 0,9.40688 -2.13387,13.37558 -9.54739,18.02411 -4.77302,2.99284 -8.42588,6.02027 -10.50841,10.90806 -2.08254,4.88777 -2.76821,10.90097 -3.70405,21.01801 -1.26439,13.66864 -1.96268,20.67745 -2.85587,24.86436 -0.89319,4.18692 -1.80111,5.65392 -4.32871,9.81747 -2.38203,3.92376 -6.31977,9.42665 -8.08709,11.43455 -1.62247,1.84333 -9.72971,8.14635 -19.51053,14.67501 -9.78081,6.52865 -21.60832,13.81775 -32.13316,19.64119 -9.14243,5.05855 -22.47128,13.11384 -34.16798,20.48317 -5.84835,3.68466 -11.27941,7.19286 -15.57249,10.07235 -4.29307,2.8795 -7.21223,4.87137 -9.0084,6.53523 -2.582,2.39178 -4.25642,5.63929 -4.28275,9.03399 -0.0263,3.39469 1.41079,6.56562 3.61631,9.43721 4.41104,5.74317 12.11004,10.95643 22.95136,16.16465 5.65206,2.71529 12.32714,6.24009 13.86358,7.21006 8.1467,5.14308 19.97392,10.56767 28.24734,12.8678 7.56295,2.10261 9.73671,2.22831 21.21527,0.72289 7.77047,-1.01912 12.23221,-1.46115 14.9374,-1.37266 2.70518,0.0885 3.63317,0.45473 6.0042,1.6923 9.39621,4.90439 70.58208,39.66643 100.52135,57.1498 8.85997,5.17387 17.53086,10.06619 24.39705,13.79961 3.43309,1.86671 6.41309,3.44268 8.76396,4.62981 2.35089,1.18713 3.76596,1.92274 5.33569,2.40891 3.85266,1.19327 9.46412,1.90269 13.9743,1.90752 4.98448,0.005 8.94063,-0.40953 12.27373,-2.63457 3.33309,-2.22505 4.98517,-5.92417 5.90392,-10.05982 2.2195,-9.99066 6.78372,-14.9366 16.15328,-17.66058 6.11108,-1.77664 10.29679,-1.29752 16.26192,1.94929 4.81559,2.62114 15.0196,13.08124 19.93671,21.32306 5.7396,9.6204 12.62126,16.40363 20.68882,19.73104 8.06756,3.3274 17.10095,2.92588 26.0997,-0.89004 7.86474,-3.33504 27.68682,-13.94642 42.61021,-22.68525 38.46583,-22.52478 55.04621,-33.10156 72.4704,-46.26472 16.59749,-12.53862 32.85909,-22.22836 68.22942,-40.58818 9.29724,-4.82596 20.58983,-11.71378 30.1798,-18.14736 4.79498,-3.21679 9.15607,-6.31498 12.64142,-9.00892 3.48535,-2.69394 5.97211,-4.7099 7.66717,-6.97188 9.79797,-13.07511 12.67798,-28.527 8.28972,-44.36348 -2.6563,-9.58616 -4.68044,-13.5268 -14.2605,-27.45296 -4.74116,-6.89202 -8.11503,-11.31505 -11.97498,-14.43892 -3.85997,-3.12387 -8.12737,-4.5742 -13.16372,-5.42373 -13.43375,-2.26603 -26.39965,1.87774 -38.457,11.86284 -10.54288,8.73095 -16.22647,12.45223 -49.2725,32.28335 -18.2127,10.92953 -41.09365,24.78176 -50.91458,30.82504 -10.45972,6.43635 -16.49158,9.9174 -20.61988,11.56826 -4.12829,1.65087 -6.28091,1.73205 -10.8364,1.40608 -8.8546,-0.63358 -16.14407,-4.48207 -33.04193,-18.39808 -11.29829,-9.30456 -17.57576,-14.56892 -21.18185,-18.00947 -3.60608,-3.44056 -4.39911,-4.71185 -5.68038,-7.28319 -3.71462,-7.45467 -1.70219,-17.12915 2.78483,-20.32439 0.1171,-0.0834 2.66451,-1.56811 5.6783,-3.12763 3.01379,-1.5595 6.80036,-3.4413 10.59196,-5.24614 25.60499,-12.18831 56.62009,-28.18149 69.85687,-36.06909 11.01337,-6.56273 20.38308,-15.68578 26.92491,-26.26626 4.92405,-7.96395 7.55932,-15.08214 6.98611,-22.19846 -0.57322,-7.11632 -4.36006,-13.53129 -10.49796,-20.03814 -12.16772,-12.89919 -19.69928,-16.86217 -36.77523,-19.35915 -6.83386,-0.99929 -10.31165,-0.87425 -15.93393,0.5662 -8.78146,2.24982 -21.87583,9.17734 -35.82258,18.37508 -9.86961,6.50891 -40.27464,22.19018 -54.67295,28.11526 -16.8385,6.92925 -26.69365,12.44336 -32.84974,19.17946 -2.6971,2.95124 -4.68669,5.33722 -6.22148,9.26591 -1.53479,3.92868 -2.78318,9.1872 -5.22704,19.35914 -0.69779,2.90436 -1.47369,5.75476 -2.14137,7.93712 -0.33385,1.09118 -0.64362,2.02092 -0.88163,2.66381 -0.238,0.64291 -0.64392,1.22258 -0.1713,0.55575 -0.37539,0.52963 -3.77355,3.92143 -7.31201,6.83817 -3.53846,2.91672 -7.57737,5.8714 -9.75631,7.11813 -2.27184,1.29989 -8.49439,3.95187 -12.77304,5.33598 -7.72951,2.50042 -8.14171,2.48972 -25.06767,2.43191 -11.84619,-0.0405 -18.23977,-0.50229 -23.21668,-2.44862 -4.9769,-1.94632 -9.33102,-5.63056 -16.95759,-13.19372 -9.6537,-9.57346 -13.18487,-14.21511 -16.85522,-21.96655 -3.08292,-6.5107 -2.88109,-5.7306 -2.82245,-16.13748 0.0455,-8.05561 0.562,-12.24222 2.156,-17.90084 2.60838,-9.25967 8.66462,-22.05779 12.56412,-27.16046 2.08106,-2.72318 4.91153,-6.97224 6.65393,-9.98251 4.40963,-7.6183 7.27942,-10.79266 21.07322,-23.31203 6.74169,-6.11882 12.57482,-11.14197 16.87612,-14.57891 2.15066,-1.71848 3.92775,-3.0439 5.1602,-3.86723 0.61622,-0.41166 1.10365,-0.69696 1.33913,-0.8169 0.22715,-0.1157 0.32185,0.0658 -0.80014,0.0898 1.61505,-0.0223 1.86845,-0.35619 2.40043,-0.59127 0.53612,-0.23689 1.04369,-0.50617 1.58985,-0.8169 1.09229,-0.62146 2.30705,-1.40738 3.52228,-2.28774 7.28932,-5.28065 28.50515,-16.12593 35.32747,-18.2184 7.03167,-2.15668 12.28464,-4.26681 16.15536,-6.77341 3.87074,-2.50659 6.78346,-5.97429 6.78346,-10.21442 0,-1.67104 -0.67056,-3.72491 -1.8656,-5.1187 -1.19506,-1.39379 -2.59226,-2.23545 -4.21381,-3.07122 -4.58639,-2.36389 -8.10568,-6.29923 -11.51746,-13.649171 -3.97549,-8.56437 -4.08861,-14.091339 -0.29249,-24.856014 3.55785,-10.088956 6.00908,-14.873574 10.91998,-21.433783 10.93354,-14.605601 28.79474,-22.155622 41.3045,-18.918306 13.54855,3.506139 24.23885,14.007465 30.2383,30.536719 2.79552,7.70204 2.84577,13.701691 0.77298,18.611186 -2.07278,4.909498 -6.47724,9.173828 -14.04742,12.721538 -6.97214,3.26746 -11.98579,6.34642 -15.76678,10.878811 -3.78099,4.5324 -6.03173,10.11754 -8.29182,17.89248 -1.45336,4.99966 -1.62328,9.6613 0.60795,13.50502 2.2312,3.84373 6.75157,5.75175 11.50074,5.75175 5.17633,0 9.99273,-1.37348 14.00355,-4.50028 4.01081,-3.12681 7.1803,-7.68249 10.40812,-13.87272 6.51165,-12.48792 18.62387,-24.849771 29.47576,-30.386291 4.53093,-2.31165 17.54517,-5.3945 23.07253,-5.3945 8.14478,0 23.98634,3.61574 32.42146,7.51301 9.52188,4.39937 17.00818,8.649131 22.18255,12.470831 5.17438,3.82169 7.83054,7.3191 8.37748,9.14472 0.43049,1.43693 0.47754,1.82787 0.4032,2.55308 -0.0743,0.72521 -0.43276,2.06276 -1.32452,4.50864 -0.6385,1.75126 -1.20632,3.55967 -1.63371,5.15422 -0.4274,1.59455 -0.77925,2.57947 -0.77925,4.34567 0,3.3873 2.4226,5.80679 4.85935,7.18081 2.43676,1.37402 5.36593,2.20113 8.84126,2.72231 3.47873,0.52171 7.43469,-0.009 10.54602,-2.40892 3.11133,-2.39955 5.59874,-5.92187 9.28416,-11.51813 9.05028,-13.74272 14.27911,-17.51381 27.01893,-19.72476 8.88584,-1.5421 15.69999,-0.74789 19.78211,1.32041 4.08214,2.06832 5.90811,4.88771 5.90811,10.02012 0,3.09689 -0.8649,5.40997 -3.16923,7.97682 -2.30433,2.56687 -6.23104,5.24389 -12.04811,7.87653 -4.2396,1.91874 -7.4796,3.60436 -9.90464,5.25243 -1.21251,0.82403 -2.22949,1.62398 -3.11909,2.63248 -0.8896,1.00848 -1.84263,2.37021 -1.84263,4.40835 0,2.13102 0.7123,2.65006 1.16366,3.28014 0.45135,0.63008 0.92721,1.1464 1.4624,1.67559 1.07038,1.0584 2.37671,2.12366 3.84194,3.13182 2.3349,1.60654 4.27762,3.9124 5.02648,5.56162 1.08728,4.62754 0,0 1.03539,6.21652"></path>
+			</svg>
+			<div class="checkpoint_container"></div>
+			<div class="player">
+				<img class="player_img" src="img/player.png">
+			</div>
+			<div class="menu">
+				<div class="friends_list">
+					<img class="friends_list_img" src="img/friends_background.png">
+					<div class="arrow_left">
+						<img class="arrow_left_img" src="img/arrow_left.png">
+					</div>
+					<div class="friends_container"></div>
+					<div class="arrow_right">
+						<img class="arrow_right_img" src="img/arrow_right.png">
+					</div>
+				</div>
+				<div class="chat_button">
+					<img class="chat_button_img" src="img/icon_chat.png">
+				</div>
+				<div class="go_button">
+					<img class="go_button_img" src="img/go_button.png">
+				</div>
+				<div class="mail_button">
+					<img class="mail_button_img" src="img/icon_mail.png">
+				</div>
+				<div class="rating_button">
+					<img class="rating_button_img" src="img/icon_rating.png">
+				</div>
+			</div>
+		</div>
+		<div class="game_rating_window">
+			<div class="rating">
+			<img class="rating_img" src="img/rating_background.png">
+				<div class="rating_top">
+					<img class="rating_top_img" src="img/rating_top.png">
+				</div>
+				<div class="close_button">
+					<img class="close_button_img" src="img/close_button.png">
+				</div>
+				<div class="rating_table">
+					<img class="rating_img" src="img/rating_table_background.png">
+					<div class="rating_table_top">
+						<img class="rating_table_top_img" src="img/rating_table_top.png">
+					</div>
+					<div class="rating_table_container"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
